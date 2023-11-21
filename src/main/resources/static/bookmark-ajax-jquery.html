@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <form id="bookmarkForm">
+      <label>즐겨찾기 이름 : </label><input type="text" name="name"><br>
+      <label>즐겨찾기 URL : </label><input type="text" name="url"><br>
+      <input type="submit"><br>
+    </form>
+    <button id="getBookmarks">즐겨찾기 목록 가져오기</button>
+    <ol id="bookmark-list"></ol>
+
+    <script>
+      $(document).ready(function() {
+        $('#bookmarkForm').submit(function(event) {
+          event.preventDefault();
+
+          const name = $('input[name="name"]').val();
+          const url = $('input[name="url"]').val();
+          const requestObject = { name: name, url: url };
+
+          $.ajax({
+            type: 'POST',
+            url: '/bookmark',
+            contentType: 'application/json',
+            data: JSON.stringify(requestObject),
+            success: function() {
+              alert('즐겨찾기가 등록되었습니다.');
+            },
+            error: function() {
+              console.error('request failed');
+            }
+          });
+        });
+
+        $('#getBookmarks').click(function() {
+          $.ajax({
+            type: 'GET',
+            url: '/bookmarks',
+            success: function(bookmarks) {
+              const bookmarkListDom = $('#bookmark-list');
+              bookmarkListDom.empty();
+
+              bookmarks.forEach(function(bookmark) {
+                const listItem = $('<li></li>').text(bookmark.name + ' - ' + bookmark.url);
+                bookmarkListDom.append(listItem);
+              });
+            },
+            error: function() {
+              console.error('request failed');
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
