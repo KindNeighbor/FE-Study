@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <form onsubmit="return addBookmarkRequest();">
+    <label>즐겨찾기 이름 : </label><input type="text" name="name"><br>
+    <label>즐겨찾기 URL : </label><input type="text" name="url"><br>
+    <input type="submit"><br>
+  </form>
+  <button onclick="getBookmarkListRequest();">즐겨찾기 목록 가져오기</button>
+  <ol id="bookmark-list"></ol>
+
+  <script src="bookmark-ajax-fetch.html"></script>
+</body>
+</html>
